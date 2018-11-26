@@ -8,9 +8,10 @@
     "pug": "^2.0.3"
   },
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "start-nodemon": "nodemon index.js",
     "start-browser-sync": "browser-sync start --proxy 'http://localhost:3000' --files '.' --port 3001",
-    "dev": "run-p start start-browser-sync"
+    "dev": "run-p start-nodemon start-browser-sync"
   },
   "devDependencies": {
     "browser-sync": "^2.26.3",

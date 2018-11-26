@@ -11,7 +11,7 @@ const port = 3000;
 
 app.get("/", (req, res) => {
   const files = fs.readdirSync("./static");
-  const address = "http://192.168.0.174:3001/static/";
+  const address = `http://${req.hostname}:${port}/static/`;
 
   res.render("index", { files, address });
 });
