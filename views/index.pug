@@ -1,8 +1,13 @@
 html
   head
   body
-    ul
-      each filename in files
-        li
-          a(href= address + filename)= filename
-          img(src= 'http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=' + address + filename)
+    div
+      form(action='/upload' method='post' enctype='multipart/form-data')
+        input(type='file' name='game')
+        input(type='submit')
+    div
+      ul
+        each filename in files
+          li
+            a(href= address + filename)= filename
+            img(src= 'http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=' + address + filename)
