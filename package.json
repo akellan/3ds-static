@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "nodemon index.js",
-    "start-browser-sync": "browser-sync start --proxy 'http://localhost:3000' --files '*.js' --port 3001",
+    "start-browser-sync": "browser-sync start --proxy 'http://localhost:3000' --files '.' --port 3001",
     "dev": "run-p start start-browser-sync"
   },
   "devDependencies": {
