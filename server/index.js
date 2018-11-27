@@ -23,6 +23,14 @@ const port = 3000;
 
 app.post("/upload", staticUpload.single("game"));
 
+app.get("/files", (req, res) => {
+  const files = fs.readdirSync("./static");
+  const address = `http://${req.hostname}:${port}/static/`;
+
+  const fileAdresses = files.map(filename => address + filename);
+  res.send(fileAdresses);
+});
+
 app.get("/", (req, res) => {
   const files = fs.readdirSync("./static");
   const address = `http://${req.hostname}:${port}/static/`;
