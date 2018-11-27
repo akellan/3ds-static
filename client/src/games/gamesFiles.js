@@ -6,7 +6,10 @@ export async function fetchGamesFilesList() {
   const files = await response.json();
 
   return files.map(
-    filename => `http://${document.location.hostname}:${port}/${filename}`
+    filename =>
+      `http://${document.location.hostname}:${port}/${encodeURIComponent(
+        filename
+      )}`
   );
 }
 

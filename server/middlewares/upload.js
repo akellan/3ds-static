@@ -12,7 +12,9 @@ function register(app, folder, multipartId) {
 
   var staticUpload = multer({ storage });
 
-  app.post("/upload", staticUpload.single(multipartId));
+  app.post("/upload", staticUpload.single(multipartId), (req, res) => {
+    res.send("ok");
+  });
 }
 
 module.exports = {
