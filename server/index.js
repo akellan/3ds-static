@@ -4,6 +4,7 @@ const cors = require("./middlewares/cors");
 const upload = require("./middlewares/upload");
 const static = require("./middlewares/static");
 const config = require("./configuration");
+const multer = require("multer");
 
 const app = express();
 const { gamesFolder, port } = config;

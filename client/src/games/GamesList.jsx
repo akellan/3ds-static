@@ -1,8 +1,8 @@
 import React from "react";
-import { fetchGamesFilesList } from "./gamesFiles";
+import { fetchGamesFilesList, uploadFile } from "./gamesFiles";
 
 export class GamesList extends React.Component {
-  state = { files: null };
+  state = { files: null, fileForUpload: null };
 
   render() {
     const { files } = this.state;
@@ -13,9 +13,9 @@ export class GamesList extends React.Component {
     return (
       <div>
         <div>
-          <form action="/static" method="post" enctype="multipart/form-data">
-            <input name="game" type="file" />
-            <input type="submit" />
+          <form onSubmit={this.uploadGame}>
+            <input name="game" type="file" onChange={this.fileChanged} />
+            <input type="submit" onSubmit={this.uploadGame} />
           </form>
         </div>
         <ul>{files.map(this.renderFile)}</ul>
@@ -27,6 +27,16 @@ export class GamesList extends React.Component {
     const files = await fetchGamesFilesList();
     this.setState({ files });
   }
+
+  fileChanged = event => {
+    this.setState({ fileForUpload: event.currentTarget.files[0] });
+  };
+
+  uploadGame = event => {
+    uploadFile(this.state.fileForUpload);
+    event.currentTarget.reset();
+    event.preventDefault();
+  };
 
   renderFile = fileUri => (
     <li key={fileUri}>
