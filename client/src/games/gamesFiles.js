@@ -1,3 +1,12 @@
-export function fetchGamesFilesList() {
-  return fetch("http://localhost:3000/files").catch(console.error);
+const port = 3000;
+
+export async function fetchGamesFilesList() {
+  const response = await fetch(`http://localhost:${port}/files`).catch(
+    console.error
+  );
+  const files = await response.json();
+
+  return files.map(
+    filename => `http://${document.location.hostname}:${port}/${filename}`
+  );
 }

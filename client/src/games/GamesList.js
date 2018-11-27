@@ -14,8 +14,7 @@ export class GamesList extends React.Component {
   }
 
   async componentDidMount() {
-    const response = await fetchGamesFilesList();
-    const files = await response.json();
+    const files = await fetchGamesFilesList();
     this.setState({ files });
   }
 
