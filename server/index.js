@@ -1,5 +1,6 @@
 const express = require("express");
-var multer = require("multer");
+const cors = require("cors");
+const multer = require("multer");
 
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -16,6 +17,7 @@ const fs = require("fs");
 require("./models/folder");
 const app = express();
 
+app.use(cors());
 app.set("view engine", "pug");
 app.use("/static", express.static("static"));
 
