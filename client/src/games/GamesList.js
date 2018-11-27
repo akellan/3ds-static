@@ -10,7 +10,17 @@ export class GamesList extends React.Component {
     if (!files) {
       return "Loading";
     }
-    return <ul>{files.map(this.renderFile)}</ul>;
+    return (
+      <div>
+        <div>
+          <form action="/static" method="post" enctype="multipart/form-data">
+            <input name="game" type="file" />
+            <input type="submit" />
+          </form>
+        </div>
+        <ul>{files.map(this.renderFile)}</ul>
+      </div>
+    );
   }
 
   async componentDidMount() {
