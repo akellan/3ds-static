@@ -32,8 +32,11 @@ export class GamesList extends React.Component {
     this.setState({ fileForUpload: event.currentTarget.files[0] });
   };
 
-  uploadGame = event => {
-    uploadFile(this.state.fileForUpload);
+  uploadGame = async event => {
+    await uploadFile(this.state.fileForUpload);
+    const files = await fetchGamesFilesList();
+    this.setState({ files });
+
     event.currentTarget.reset();
     event.preventDefault();
   };
