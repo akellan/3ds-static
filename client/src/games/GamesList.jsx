@@ -1,8 +1,22 @@
 import React from "react";
-import { fetchGamesFilesList, uploadFile } from "./gamesFiles";
+import { fetchGamesFilesList } from "./gamesFiles";
+import styled from "styled-components";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Chip from "@material-ui/core/Chip";
+import { LinkQRCode } from "./LinkQRCode";
+import { UploadFile } from "./UploadFile";
+
+const UploadFormContainer = styled(Paper)`
+  padding: 10px;
+`;
+
+const GamePaper = styled(Paper)`
+  padding: 20px;
+`;
 
 export class GamesList extends React.Component {
-  state = { files: null, fileForUpload: null };
+  state = { files: null };
 
   render() {
     const { files } = this.state;
@@ -13,43 +27,43 @@ export class GamesList extends React.Component {
     return (
       <div>
         <div>
-          <form onSubmit={this.uploadGame}>
-            <input name="game" type="file" onChange={this.fileChanged} />
-            <input type="submit" onSubmit={this.uploadGame} />
-          </form>
+          <Grid container spacing={24}>
+            <Grid item xs={12}>
+              <UploadFormContainer>
+                <UploadFile onFileUploaded={this.handleFileUploaded} />
+              </UploadFormContainer>
+            </Grid>
+          </Grid>
         </div>
-        <ul>{files.map(this.renderFile)}</ul>
+        <div />
+        <Grid container spacing={24}>
+          {files.map(this.renderFile)}
+        </Grid>
       </div>
     );
   }
 
   async componentDidMount() {
-    const files = await fetchGamesFilesList();
-    this.setState({ files });
+    await this.refreshGamesList();
   }
 
-  fileChanged = event => {
-    this.setState({ fileForUpload: event.currentTarget.files[0] });
-  };
-
-  uploadGame = async event => {
-    await uploadFile(this.state.fileForUpload);
+  refreshGamesList = async () => {
     const files = await fetchGamesFilesList();
     this.setState({ files });
+  };
 
-    event.currentTarget.reset();
-    event.preventDefault();
+  handleFileUploaded = async event => {
+    await this.refreshGamesList();
   };
 
   renderFile = fileUri => (
-    <li key={fileUri}>
-      <span>{fileUri}</span>
-      <img
-        alt="barcode"
-        src={
-          `http://chart.apis.google.com/chart?cht=qr&chs=300x300&chl=` + fileUri
-        }
-      />
-    </li>
+    <Grid item xs={6} key={fileUri}>
+      <GamePaper>
+        <Chip color="primary" label={fileUri} />
+        <div>
+          <LinkQRCode fileUri={fileUri} />
+        </div>
+      </GamePaper>
+    </Grid>
   );
 }

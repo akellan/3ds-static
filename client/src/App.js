@@ -1,9 +1,22 @@
 import React, { Component } from "react";
 import { GamesList } from "./games/GamesList.jsx";
+import JssProvider from "react-jss/lib/JssProvider";
+import { create } from "jss";
+import { createGenerateClassName, jssPreset } from "@material-ui/core/styles";
+
+const generateClassName = createGenerateClassName();
+const jss = create({
+  ...jssPreset(),
+  insertionPoint: "jss-insertion-point"
+});
 
 class App extends Component {
   render() {
-    return <GamesList />;
+    return (
+      <JssProvider jss={jss} generateClassName={generateClassName}>
+        <GamesList />
+      </JssProvider>
+    );
   }
 }
 
