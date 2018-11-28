@@ -8,7 +8,7 @@ import { LinkQRCode } from "./LinkQRCode";
 import { UploadFile } from "./UploadFile";
 
 const UploadFormContainer = styled(Paper)`
-  padding: 10px;
+  padding: 10px 50px;
 `;
 
 const GamePaper = styled(Paper)`

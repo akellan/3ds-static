@@ -10,7 +10,7 @@ const Hidden = styled.div`
 `;
 
 const FormButton = styled(Button)`
-  margin: 0 20px;
+  margin: 0 10px;
 `;
 
 const Form = styled.form`
@@ -40,7 +40,7 @@ export class UploadFile extends React.Component {
               Upload
             </FormButton>
           </label>
-          <FormButton type="submit" variant="contained" color="primary">
+          <FormButton disabled={!this.isFileSelected()} type="submit" variant="contained" color="primary">
             Submit
           </FormButton>
           {isUploading && <CircularProgress size={30} thickness={5} />}
@@ -49,13 +49,27 @@ export class UploadFile extends React.Component {
     );
   }
 
+  fileChanged = () => {
+    this.forceUpdate();
+  };
+
+  isFileSelected = () => {
+    const { current } = this.fileRef;
+
+    if (!current) {
+      return false;
+    }
+
+    return current.files.length > 0;
+  };
+
   handleSubmit = async event => {
     event.preventDefault();
     const { target } = event;
 
     const { files } = this.fileRef.current;
 
-    if (files.length) {
+    if (this.isFileSelected()) {
       this.setState({ isUploading: true });
 
       await uploadFile(files[0]);
