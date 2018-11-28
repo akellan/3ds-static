@@ -7,7 +7,7 @@ import { createGenerateClassName, jssPreset } from "@material-ui/core/styles";
 const generateClassName = createGenerateClassName();
 const jss = create({
   ...jssPreset(),
-  insertionPoint: "jss-insertion-point"
+  insertionPoint: document.getElementById("jss-insertion-point")
 });
 
 class App extends Component {
