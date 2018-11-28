@@ -5,7 +5,10 @@ export async function fetchGamesFilesList() {
   const response = await fetch(`${serverUri}/files`);
   const files = await response.json();
 
-  return files.map(filename => `http://${document.location.hostname}:${port}/${encodeURIComponent(filename)}`);
+  return files.map(fileMeta => ({
+    serverUri,
+    ...fileMeta
+  }));
 }
 
 export async function uploadFile(file) {

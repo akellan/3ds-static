@@ -4,7 +4,6 @@ const cors = require("./middlewares/cors");
 const upload = require("./middlewares/upload");
 const static = require("./middlewares/static");
 const config = require("./configuration");
-const multer = require("multer");
 
 const app = express();
 const { gamesFolder, port } = config;
@@ -15,9 +14,12 @@ static.register(app, gamesFolder);
 
 app.get("/files", (req, res) => {
   const files = fs.readdirSync(gamesFolder);
-  const address = `static/`;
+  const relativePath = `static/`;
 
-  const fileAdresses = files.map(filename => address + filename);
+  const fileAdresses = files.map(filename => ({
+    relativePath,
+    filename
+  }));
   res.send(fileAdresses);
 });
 

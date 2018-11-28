@@ -37,7 +37,7 @@ export class GamesList extends React.Component {
         </div>
         <div />
         <Grid container spacing={24}>
-          {files.map(this.renderFile)}
+          {files.map(this.renderFileMeta)}
         </Grid>
       </div>
     );
@@ -56,14 +56,17 @@ export class GamesList extends React.Component {
     await this.refreshGamesList();
   };
 
-  renderFile = fileUri => (
-    <Grid item xs={6} key={fileUri}>
-      <GamePaper>
-        <Chip color="primary" label={fileUri} />
-        <div>
-          <LinkQRCode fileUri={fileUri} />
-        </div>
-      </GamePaper>
-    </Grid>
-  );
+  renderFileMeta = ({ serverUri, relativePath, filename }) => {
+    const fileUri = `${serverUri}/${relativePath}${filename}`;
+    return (
+      <Grid item xs={6} key={filename}>
+        <GamePaper>
+          <Chip color="primary" label={filename} />
+          <div>
+            <LinkQRCode fileUri={fileUri} />
+          </div>
+        </GamePaper>
+      </Grid>
+    );
+  };
 }
