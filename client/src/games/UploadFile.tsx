@@ -18,14 +18,10 @@ const Form = styled.form`
   align-items: center;
 `;
 
-export class UploadFile extends React.Component {
-  fileRef = React.createRef();
+export class UploadFile extends React.Component<{ onFileUploaded: () => void }> {
+  fileRef = React.createRef<HTMLInputElement>();
 
   state = { isUploading: false };
-
-  static propTypes = {
-    onFileUploaded: PropTypes.func
-  };
 
   render() {
     const { isUploading } = this.state;

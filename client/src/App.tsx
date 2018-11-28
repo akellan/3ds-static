@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { GamesList } from "./games/GamesList.jsx";
+import { GamesList } from "./games/GamesList";
 import JssProvider from "react-jss/lib/JssProvider";
 import { create } from "jss";
 import { createGenerateClassName, jssPreset } from "@material-ui/core/styles";

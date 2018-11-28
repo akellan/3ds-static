@@ -52,7 +52,7 @@ export class GamesList extends React.Component {
     this.setState({ files });
   };
 
-  handleFileUploaded = async event => {
+  handleFileUploaded = async () => {
     await this.refreshGamesList();
   };
 
