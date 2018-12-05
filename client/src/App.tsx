@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { GamesList } from "./games/GamesList";
 import JssProvider from "react-jss/lib/JssProvider";
 import { create } from "jss";
 import { createGenerateClassName, jssPreset } from "@material-ui/core/styles";
 import { createGlobalStyle } from "styled-components";
+import { GamesList2 } from "./games/GamesList2";
 
 const generateClassName = createGenerateClassName();
 const jss = create({
@@ -22,7 +22,7 @@ class App extends Component {
       <JssProvider jss={jss} generateClassName={generateClassName}>
         <>
           <RootStyle />
-          <GamesList />
+          <GamesList2 />
         </>
       </JssProvider>
     );

@@ -1,0 +1,9 @@
+type Query {
+  files: [File]
+}
+
+type File {
+  id: ID
+  filename: String
+  relativePath: String
+}
