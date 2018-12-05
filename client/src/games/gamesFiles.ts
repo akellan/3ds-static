@@ -1,5 +1,5 @@
 const port = 3000;
-const serverUri = `http://${document.location.hostname}:${port}`;
+export const serverUri = `http://${document.location.hostname}:${port}`;
 
 export async function fetchGamesFilesList() {
   const response = await fetch(`${serverUri}/files`);

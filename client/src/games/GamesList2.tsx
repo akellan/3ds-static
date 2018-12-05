@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import graphql from "babel-plugin-relay/macro";
-import { QueryRenderer, ReadyState } from "react-relay";
-import { fetchGamesFilesList } from "./gamesFiles";
+import { QueryRenderer, ReadyState, createRefetchContainer, RelayRefetchProp } from "react-relay";
+import { serverUri } from "./gamesFiles";
 import styled from "styled-components";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -9,7 +9,6 @@ import Chip from "@material-ui/core/Chip";
 import { LinkQRCode } from "./LinkQRCode";
 import { UploadFile } from "./UploadFile";
 import environment from "../graph-api/environment";
-import { Variables } from "relay-runtime";
 
 const UploadFormContainer = styled(Paper)`
   padding: 10px 50px;
@@ -28,15 +27,22 @@ const query = graphql`
   }
 `;
 
+interface QueryVariables {
+  files: File[];
+}
+
+interface File {
+  filename: string;
+  relativePath: string;
+}
+
+interface GamesList2State {
+  queryDefaults: QueryVariables;
+}
+
 export class GamesList2 extends React.Component {
-  state = { files: null };
-
   render() {
-    const { files } = this.state;
-
-    if (!files) {
-      return "Loading";
-    }
+    const variables = { idr: Math.random() };
     return (
       <div>
         <div>
@@ -50,33 +56,25 @@ export class GamesList2 extends React.Component {
         </div>
         <div />
         <Grid container spacing={24}>
-          <QueryRenderer environment={environment} query={query} variables={{}} render={this.renderGamesFiles} />
-          {files.map(this.renderFileMeta)}
+          <QueryRenderer environment={environment} query={query} variables={variables} render={this.renderGamesFiles} />
         </Grid>
       </div>
     );
   }
 
-  async componentDidMount() {
-    await this.refreshGamesList();
-  }
-
-  renderGamesFiles = (readyState: ReadyState<Variables>): ReactElement<any> => {
-    console.log(readyState.error);
-    console.log(readyState.props);
-    return <div>test</div>;
+  renderGamesFiles = (readyState: ReadyState<QueryVariables>): ReactElement<any> => {
+    console.log(readyState);
+    if (readyState.props) {
+      return <>{readyState.props.files.map((value: File) => this.renderFileMeta({ serverUri, ...value }))}</>;
+    }
+    return null;
   };
 
-  refreshGamesList = async () => {
-    const files = await fetchGamesFilesList();
-    this.setState({ files });
+  handleFileUploaded = () => {
+    this.forceUpdate();
   };
 
-  handleFileUploaded = async () => {
-    await this.refreshGamesList();
-  };
-
-  renderFileMeta = ({ serverUri, relativePath, filename }) => {
+  renderFileMeta = ({ serverUri, relativePath, filename }): ReactElement<any> => {
     const fileUri = `${serverUri}/${relativePath}${filename}`;
     return (
       <Grid item xs={6} key={filename}>
