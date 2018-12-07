@@ -9,6 +9,7 @@ import Chip from "@material-ui/core/Chip";
 import { LinkQRCode } from "./LinkQRCode";
 import { UploadFile } from "./UploadFile";
 import environment from "../../graph-api/environment";
+import { ErrorMessage } from "../../error-handling";
 
 const UploadFormContainer = styled(Paper)`
   padding: 10px 50px;
@@ -70,14 +71,28 @@ export class FilesList extends React.Component<{}, FilesListState> {
   }
 
   renderGamesFiles = (readyState: ReadyState<FilesQueryResult>): ReactElement<any> => {
-    if (readyState.props) {
-      return <>{readyState.props.files.map((value: File) => this.renderFileMeta({ serverUri, ...value }))}</>;
+    const { error, props } = readyState;
+    if (error) {
+      return this.renderError(error);
     }
+
+    if (props) {
+      return <>{props.files.map((value: File) => this.renderFileMeta({ serverUri, ...value }))}</>;
+    }
+
     return null;
   };
 
   handleFileUploaded = () => {
     this.setState({ variables: { seed: Math.random() } });
+  };
+
+  renderError = (error: Error) => {
+    return (
+      <Grid item xs={12}>
+        <ErrorMessage error={error} />
+      </Grid>
+    );
   };
 
   renderFileMeta = ({ serverUri, relativePath, filename }): ReactElement<any> => {
