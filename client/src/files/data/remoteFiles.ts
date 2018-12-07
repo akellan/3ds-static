@@ -1,16 +1,6 @@
 const port = 3000;
 export const serverUri = `http://${document.location.hostname}:${port}`;
 
-export async function fetchGamesFilesList() {
-  const response = await fetch(`${serverUri}/files`);
-  const files = await response.json();
-
-  return files.map(fileMeta => ({
-    serverUri,
-    ...fileMeta
-  }));
-}
-
 export async function uploadFile(file) {
   const formData = new FormData();
   formData.set("game", file);

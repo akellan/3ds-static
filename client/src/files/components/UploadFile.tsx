@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import PropTypes from "prop-types";
-import { uploadFile } from "./gamesFiles";
+import { uploadFile } from "../data/remoteFiles";
 
 const Hidden = styled.div`
   display: none;
