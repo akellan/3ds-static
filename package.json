@@ -1,0 +1,14 @@
+{
+  "name": "3dsmarket",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:akellan/3ds-static.git",
+  "author": "Mykola Kodrul <nikolay.kodrul@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lerna": "^3.8.0"
+  },
+  "scripts": {
+    "start": "lerna run start --stream"
+  }
+}

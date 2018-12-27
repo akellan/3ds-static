@@ -1,22 +1,16 @@
 import React, { ReactElement } from "react";
 import graphql from "babel-plugin-relay/macro";
 import { QueryRenderer, ReadyState } from "react-relay";
-import { serverUri } from "../data/remoteFiles";
 import styled from "styled-components";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Chip from "@material-ui/core/Chip";
-import { LinkQRCode } from "./LinkQRCode";
 import { UploadFile } from "./UploadFile";
 import environment from "../../graph-api/environment";
 import { ErrorMessage } from "../../error-handling";
+import FilesGrid from "./FilesGrid";
 
 const UploadFormContainer = styled(Paper)`
   padding: 10px 50px;
-`;
-
-const FilePaper = styled(Paper)`
-  padding: 20px;
 `;
 
 const filesQuery = graphql`
@@ -32,7 +26,7 @@ interface FilesQueryResult {
   files: File[];
 }
 
-interface File {
+export interface File {
   filename: string;
   relativePath: string;
 }
@@ -58,14 +52,12 @@ export class FilesList extends React.Component<{}, FilesListState> {
           </Grid>
         </div>
         <div />
-        <Grid container spacing={24}>
-          <QueryRenderer
-            environment={environment}
-            query={filesQuery}
-            variables={variables}
-            render={this.renderGamesFiles}
-          />
-        </Grid>
+        <QueryRenderer
+          environment={environment}
+          query={filesQuery}
+          variables={variables}
+          render={this.renderGamesFiles}
+        />
       </div>
     );
   }
@@ -77,7 +69,7 @@ export class FilesList extends React.Component<{}, FilesListState> {
     }
 
     if (props) {
-      return <>{props.files.map((value: File) => this.renderFileMeta({ serverUri, ...value }))}</>;
+      return <FilesGrid files={props.files} />;
     }
 
     return null;
@@ -91,20 +83,6 @@ export class FilesList extends React.Component<{}, FilesListState> {
     return (
       <Grid item xs={12}>
         <ErrorMessage error={error} />
-      </Grid>
-    );
-  };
-
-  renderFileMeta = ({ serverUri, relativePath, filename }): ReactElement<any> => {
-    const fileUri = `${serverUri}/${relativePath}${filename}`;
-    return (
-      <Grid item xs={6} key={filename}>
-        <FilePaper>
-          <Chip color="primary" label={filename} />
-          <div>
-            <LinkQRCode fileUri={fileUri} />
-          </div>
-        </FilePaper>
       </Grid>
     );
   };
